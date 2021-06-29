@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import rospy
 import sys
@@ -11,6 +11,7 @@ import math
 
 from std_srvs.srv import Empty
 
+
 class Ur5Moveit:
 
     # Constructor
@@ -18,15 +19,20 @@ class Ur5Moveit:
 
         rospy.init_node('node_eg3_set_joint_angles', anonymous=True)
 
-        self._robot_ns = '/'  + arg_robot_name
+        self._robot_ns = '/' + arg_robot_name
         self._planning_group = "manipulator"
-        
+
         self._commander = moveit_commander.roscpp_initialize(sys.argv)
-        self._robot = moveit_commander.RobotCommander(robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._scene = moveit_commander.PlanningSceneInterface(ns=self._robot_ns)
-        self._group = moveit_commander.MoveGroupCommander(self._planning_group, robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._display_trajectory_publisher = rospy.Publisher( self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
-        self._exectute_trajectory_client = actionlib.SimpleActionClient( self._robot_ns + '/execute_trajectory', moveit_msgs.msg.ExecuteTrajectoryAction)
+        self._robot = moveit_commander.RobotCommander(
+            robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._scene = moveit_commander.PlanningSceneInterface(
+            ns=self._robot_ns)
+        self._group = moveit_commander.MoveGroupCommander(
+            self._planning_group, robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._display_trajectory_publisher = rospy.Publisher(
+            self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
+        self._exectute_trajectory_client = actionlib.SimpleActionClient(
+            self._robot_ns + '/execute_trajectory', moveit_msgs.msg.ExecuteTrajectoryAction)
         self._exectute_trajectory_client.wait_for_server()
 
         self._planning_frame = self._group.get_planning_frame()
@@ -47,8 +53,9 @@ class Ur5Moveit:
         rospy.loginfo('\033[94m' + " >>> Ur5Moveit init done." + '\033[0m')
 
     def clear_octomap(self):
-		clear_octomap_service_proxy = rospy.ServiceProxy(self._robot_ns + "/clear_octomap", Empty)
-		return clear_octomap_service_proxy()
+        clear_octomap_service_proxy = rospy.ServiceProxy(
+            self._robot_ns + "/clear_octomap", Empty)
+        return clear_octomap_service_proxy()
 
     def set_joint_angles(self, arg_list_joint_angles):
 
@@ -83,13 +90,12 @@ class Ur5Moveit:
 
         number_attempts = 0
         flag_success = False
-        
-        while ( (number_attempts <= arg_max_attempts) and  (flag_success is False) ):
+
+        while ((number_attempts <= arg_max_attempts) and (flag_success is False)):
             number_attempts += 1
             flag_success = self.set_joint_angles(arg_list_joint_angles)
-            rospy.logwarn("attempts: {}".format(number_attempts) )
+            rospy.logwarn("attempts: {}".format(number_attempts))
             # self.clear_octomap()
-
 
     # Destructor
 
@@ -138,7 +144,6 @@ def main():
         rospy.sleep(2)
 
     del ur5
-
 
 
 if __name__ == '__main__':

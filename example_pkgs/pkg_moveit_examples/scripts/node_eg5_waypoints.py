@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import rospy
 import sys
@@ -11,6 +11,7 @@ import actionlib
 
 from std_srvs.srv import Empty
 
+
 class CartesianPath:
 
     # Constructor
@@ -18,15 +19,20 @@ class CartesianPath:
 
         rospy.init_node('node_eg5_waypoints', anonymous=True)
 
-        self._robot_ns = '/'  + arg_robot_name
+        self._robot_ns = '/' + arg_robot_name
         self._planning_group = "manipulator"
-        
+
         self._commander = moveit_commander.roscpp_initialize(sys.argv)
-        self._robot = moveit_commander.RobotCommander(robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._scene = moveit_commander.PlanningSceneInterface(ns=self._robot_ns)
-        self._group = moveit_commander.MoveGroupCommander(self._planning_group, robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._display_trajectory_publisher = rospy.Publisher( self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
-        self._exectute_trajectory_client = actionlib.SimpleActionClient( self._robot_ns + '/execute_trajectory', moveit_msgs.msg.ExecuteTrajectoryAction)
+        self._robot = moveit_commander.RobotCommander(
+            robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._scene = moveit_commander.PlanningSceneInterface(
+            ns=self._robot_ns)
+        self._group = moveit_commander.MoveGroupCommander(
+            self._planning_group, robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._display_trajectory_publisher = rospy.Publisher(
+            self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
+        self._exectute_trajectory_client = actionlib.SimpleActionClient(
+            self._robot_ns + '/execute_trajectory', moveit_msgs.msg.ExecuteTrajectoryAction)
         self._exectute_trajectory_client.wait_for_server()
 
         self._planning_frame = self._group.get_planning_frame()
@@ -35,11 +41,10 @@ class CartesianPath:
 
         rospy.loginfo('\033[94m' + " >>> Init done." + '\033[0m')
 
-    
     def clear_octomap(self):
-		clear_octomap_service_proxy = rospy.ServiceProxy(self._robot_ns + "/clear_octomap", Empty)
-		return clear_octomap_service_proxy()
-
+        clear_octomap_service_proxy = rospy.ServiceProxy(
+            self._robot_ns + "/clear_octomap", Empty)
+        return clear_octomap_service_proxy()
 
     def ee_cartesian_translation(self, trans_x, trans_y, trans_z):
         # 1. Create a empty list to hold waypoints
@@ -50,8 +55,8 @@ class CartesianPath:
 
         # 3. Create a New waypoint
         wpose = geometry_msgs.msg.Pose()
-        wpose.position.x = waypoints[0].position.x + (trans_x)  
-        wpose.position.y = waypoints[0].position.y + (trans_y)  
+        wpose.position.x = waypoints[0].position.x + (trans_x)
+        wpose.position.y = waypoints[0].position.y + (trans_y)
         wpose.position.z = waypoints[0].position.z + (trans_z)
         # This to keep EE parallel to Ground Plane
         wpose.orientation.x = -0.5
@@ -59,10 +64,8 @@ class CartesianPath:
         wpose.orientation.z = 0.5
         wpose.orientation.w = 0.5
 
-
         # 4. Add the new waypoint to the list of waypoints
         waypoints.append(copy.deepcopy(wpose))
-
 
         # 5. Compute Cartesian Path connecting the waypoints in the list of waypoints
         (plan, fraction) = self._group.compute_cartesian_path(
@@ -81,18 +84,18 @@ class CartesianPath:
         # 6. Make the arm follow the Computed Cartesian Path
         return self._group.execute(plan)
 
-
     def hard_ee_cartesian_translation(self, trans_x, trans_y, trans_z, arg_max_attempts):
 
         number_attempts = 0
         flag_success = False
-        
-        while ( (number_attempts <= arg_max_attempts) and  (flag_success is False) ):
+
+        while ((number_attempts <= arg_max_attempts) and (flag_success is False)):
             number_attempts += 1
-            flag_success = self.ee_cartesian_translation(trans_x, trans_y, trans_z)
-            rospy.logwarn("attempts: {}".format(number_attempts) )
+            flag_success = self.ee_cartesian_translation(
+                trans_x, trans_y, trans_z)
+            rospy.logwarn("attempts: {}".format(number_attempts))
             # self.clear_octomap()
-    
+
     def go_to_pose(self, arg_pose):
 
         pose_values = self._group.get_current_pose().pose
@@ -118,16 +121,15 @@ class CartesianPath:
 
         return flag_plan
 
-
     def hard_go_to_pose(self, arg_pose, arg_max_attempts):
 
         number_attempts = 0
         flag_success = False
-        
-        while ( (number_attempts <= arg_max_attempts) and  (flag_success is False) ):
+
+        while ((number_attempts <= arg_max_attempts) and (flag_success is False)):
             number_attempts += 1
             flag_success = self.go_to_pose(arg_pose)
-            rospy.logwarn("attempts: {}".format(number_attempts) )
+            rospy.logwarn("attempts: {}".format(number_attempts))
             # self.clear_octomap()
 
     # Destructor
@@ -164,32 +166,35 @@ def main():
         # 	break
 
         # 2. Translate EE by 0.5m  in x
-        rospy.loginfo('\033[94m' + "Translating EE by 0.5m in x from current position." + '\033[0m')
+        rospy.loginfo(
+            '\033[94m' + "Translating EE by 0.5m in x from current position." + '\033[0m')
         ur5.hard_ee_cartesian_translation(0.5, 0, 0, 50)
 
         rospy.loginfo('\033[96m' + "Enter 'n' to go to next pose." + '\033[0m')
         # inp = raw_input()
         # if(inp == 'x'):
         # 	break
-        
+
         # 3. Translate EE by 0.5m  in y
-        rospy.loginfo('\033[94m' + "Translating EE by 0.5m in y from current position." + '\033[0m')
+        rospy.loginfo(
+            '\033[94m' + "Translating EE by 0.5m in y from current position." + '\033[0m')
         ur5.hard_ee_cartesian_translation(0, 0.5, 0, 50)
 
         rospy.loginfo('\033[96m' + "Enter 'n' to go to next pose." + '\033[0m')
         # inp = raw_input()
         # if(inp == 'x'):
         # 	break
-        
+
         # 4. Translate EE by 0.5m  in z
-        rospy.loginfo('\033[94m' + "Translating EE to the package from current position." + '\033[0m')
+        rospy.loginfo(
+            '\033[94m' + "Translating EE to the package from current position." + '\033[0m')
         ur5.hard_ee_cartesian_translation(0, 0, 0.5, 50)
 
         rospy.loginfo('\033[96m' + "Enter 'n' to go to home pose." + '\033[0m')
         # inp = raw_input()
         # if(inp == 'x'):
         # 	break
-        
+
     del ur5
 
 

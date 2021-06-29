@@ -25,6 +25,6 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
   
   <rosparam file ="$(find pkg_vb_sim)/config/config_vacuum_gripper.yaml"/>
-  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper.py" output="screen"/>
+  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper_ur5_1.py" output="screen"/>
 
 </launch>

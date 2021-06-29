@@ -2,7 +2,7 @@
     
     <param name="robot_description" textfile="$(find pkg_vb_sim)/urdf/ur5_1.urdf"/>
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pkg_vb_sim)/config/rviz/ur5_1.rviz"/>
     

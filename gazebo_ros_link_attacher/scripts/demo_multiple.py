@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from gazebo_ros_link_attacher.msg import Attach
@@ -117,27 +117,27 @@ if __name__ == '__main__':
     # Spawn object 1
     rospy.loginfo("Spawning cube1")
     req1 = create_cube_request("cube1",
-                              0.0, 0.0, 0.51,  # position
-                              0.0, 0.0, 0.0,  # rotation
-                              1.0, 1.0, 1.0)  # size
+                               0.0, 0.0, 0.51,  # position
+                               0.0, 0.0, 0.0,  # rotation
+                               1.0, 1.0, 1.0)  # size
     spawn_srv.call(req1)
     rospy.sleep(1.0)
 
     # Spawn object 2
     rospy.loginfo("Spawning cube2")
     req2 = create_cube_request("cube2",
-                              0.0, 1.1, 0.41,  # position
-                              0.0, 0.0, 0.0,  # rotation
-                              0.8, 0.8, 0.8)  # size
+                               0.0, 1.1, 0.41,  # position
+                               0.0, 0.0, 0.0,  # rotation
+                               0.8, 0.8, 0.8)  # size
     spawn_srv.call(req2)
     rospy.sleep(1.0)
 
     # Spawn object 3
     rospy.loginfo("Spawning cube3")
     req3 = create_cube_request("cube3",
-                              0.0, 2.1, 0.41,  # position
-                              0.0, 0.0, 0.0,  # rotation
-                              0.4, 0.4, 0.4)  # size
+                               0.0, 2.1, 0.41,  # position
+                               0.0, 0.0, 0.0,  # rotation
+                               0.4, 0.4, 0.4)  # size
     spawn_srv.call(req3)
     rospy.sleep(1.0)
 
@@ -160,7 +160,6 @@ link_name_2: 'link'"
     """
     rospy.loginfo("Published into linking service!")
 
-
     rospy.loginfo("Attaching cube2 and cube3")
     amsg = Attach()
     amsg.model_name_1 = "cube2"
@@ -170,7 +169,6 @@ link_name_2: 'link'"
 
     attach_pub.publish(amsg)
     rospy.sleep(1.0)
-
 
     rospy.loginfo("Attaching cube3 and cube1")
     amsg = Attach()

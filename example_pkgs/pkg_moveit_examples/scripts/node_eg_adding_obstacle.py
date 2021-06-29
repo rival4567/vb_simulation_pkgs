@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import rospy
 import sys
@@ -107,20 +107,21 @@ def main():
                           math.radians(6)]
 
     while not rospy.is_shutdown():
-        rospy.loginfo('\033[96m' + "1. Going to Non-Obstacle Pose." + '\033[0m')
+        rospy.loginfo(
+            '\033[96m' + "1. Going to Non-Obstacle Pose." + '\033[0m')
         ur5.set_joint_angles(lst_joint_angles_1)
         rospy.sleep(2)
-        
+
         rospy.loginfo('\033[96m' + "2. Going to Obstacle Pose." + '\033[0m')
         ur5.set_joint_angles(lst_joint_angles_2)
         rospy.sleep(2)
-        
-        rospy.loginfo('\033[96m' + "3. Going to Non-Obstacle Pose." + '\033[0m')
+
+        rospy.loginfo(
+            '\033[96m' + "3. Going to Non-Obstacle Pose." + '\033[0m')
         ur5.set_joint_angles(lst_joint_angles_3)
         rospy.sleep(2)
 
     del ur5
-
 
 
 if __name__ == '__main__':

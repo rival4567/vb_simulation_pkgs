@@ -36,7 +36,7 @@
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.04 -y 0.76 -z 0.05 -Y 3.14 -param robot_description -urdf -model ur5 -J ur5_shoulder_pan_joint 0.0 -J ur5_shoulder_lift_joint 0.0 -J ur5_elbow_joint 0.0 -J ur5_wrist_1_joint 0.0 -J ur5_wrist_2_joint 0.0 -J ur5_wrist_3_joint 0.0" />
 
   <!-- Vacuum Gripper Node -->
-  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper.py" output="screen"/>
+  <node name= "node_service_server_vacuum_gripper" pkg= "pkg_vb_sim" type="node_service_server_vacuum_gripper_ur5_1.py" output="screen"/>
 
   <!-- Launch the Controller for the Robot in Gazebo -->
 <!--   <rosparam file ="$(find pkg_pick_place_moveit)/config/my_config/my_gazebo_controllers.yaml"/> -->

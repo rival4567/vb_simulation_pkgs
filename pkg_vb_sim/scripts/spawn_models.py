@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from gazebo_msgs.srv import SpawnModel, SpawnModelRequest, SpawnModelResponse
@@ -177,9 +177,9 @@ if __name__ == '__main__':
     rospy.loginfo("Waiting for /gazebo/spawn_sdf_model service...")
     spawn_srv.wait_for_service()
     rospy.loginfo("Connected to service!")
-    
+
     # rospy.sleep(5)
-    
+
     # Spawn Box
     rospy.loginfo("Spawning package_mumbai")
     # req3 = create_cube_request("package_mumbai",
@@ -188,16 +188,16 @@ if __name__ == '__main__':
     #                           0.2, 0.2, 0.2)  # size
 
     req1 = create_cube_request(sdf_dummy_cube, "base_of_pkg",
-                              0.0, 0.20, 1.83,  # position
-                              0.0, 0.0, 0.0,  # rotation
-                              0.29, 0.39, 0.05)  # size
+                               0.0, 0.20, 1.83,  # position
+                               0.0, 0.0, 0.0,  # rotation
+                               0.29, 0.39, 0.05)  # size
 
     spawn_srv.call(req1)
 
     req2 = create_cube_request(sdf_cube, "package$1",
-                              0.03, 0.31, 1.97,  # position
-                              0.0, 0.0, 0.0,  # rotation
-                              0.15, 0.15, 0.15)  # size
+                               0.03, 0.31, 1.97,  # position
+                               0.0, 0.0, 0.0,  # rotation
+                               0.15, 0.15, 0.15)  # size
 
     spawn_srv.call(req2)
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python  
+#!/usr/bin/env python3
 import rospy
 
 # Because of transformations
@@ -12,7 +12,6 @@ import turtlesim.msg
 def handle_turtle_pose(msg, turtlename):
     br = tf2_ros.TransformBroadcaster()
     t = geometry_msgs.msg.TransformStamped()
-
 
 
 if __name__ == '__main__':
@@ -107,6 +106,5 @@ if __name__ == '__main__':
         # t.transform.rotation.w = q[3]
 
         # br.sendTransform(t)
-
 
     rospy.spin()

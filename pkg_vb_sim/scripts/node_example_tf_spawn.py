@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from gazebo_msgs.srv import SpawnModel, SpawnModelRequest, SpawnModelResponse
@@ -341,6 +341,7 @@ sdf_cube_red = """<?xml version="1.0" ?>
 </sdf>
 """
 
+
 def create_cube_request(sdf_model, modelname, px, py, pz, rr, rp, ry, sx, sy, sz):
     """Create a SpawnModelRequest with the parameters of the cube given.
     modelname: name of the model for gazebo
@@ -377,31 +378,31 @@ if __name__ == '__main__':
     rospy.loginfo("Waiting for /gazebo/spawn_sdf_model service...")
     spawn_srv.wait_for_service()
     rospy.loginfo("Connected to service!")
-    
+
     rospy.sleep(5)
-    
+
     # Spawn Box
     req1 = create_cube_request(sdf_cube_red, "packagen1",
-                              -0.8, 0, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
-                              0.0, 0.0, 0.0,  # rotation
-                              0.15, 0.15, 0.15)  # size
+                               -0.8, 0, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
+                               0.0, 0.0, 0.0,  # rotation
+                               0.15, 0.15, 0.15)  # size
 
     req2 = create_cube_request(sdf_cube_green, "packagen2",
-                              -0.66, 0.3, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
-                              0.0, 0.0, 0.0,  # rotation
-                              0.15, 0.15, 0.15)  # size
+                               -0.66, 0.3, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
+                               0.0, 0.0, 0.0,  # rotation
+                               0.15, 0.15, 0.15)  # size
 
     req3 = create_cube_request(sdf_cube_blue, "packagen3",
-                              -0.90, -0.3, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
-                              0.0, 0.0, 0.0,  # rotation
-                              0.15, 0.15, 0.15)  # size
+                               -0.90, -0.3, 1.0,  # position -x 1.2 -y -2.5 -z 0.94
+                               0.0, 0.0, 0.0,  # rotation
+                               0.15, 0.15, 0.15)  # size
 
     # rospy.sleep(1)
     spawn_srv.call(req1)
 
     # rospy.sleep(1)
     # spawn_srv.call(req2)
-    
+
     # rospy.sleep(1)
     # spawn_srv.call(req3)
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import rospkg
@@ -9,8 +9,9 @@ if __name__ == '__main__':
 
     rp = rospkg.RosPack()
     str_pkg_path = rp.get_path('pkg_vb_sim')
-    rospy.loginfo( "Package Path: {}".format(str_pkg_path) )
+    rospy.loginfo("Package Path: {}".format(str_pkg_path))
 
-    res = subprocess.call(["python2", "{}/src/task6_random_config_generator.exe".format(str_pkg_path)])
+    res = subprocess.call(
+        ["python3", "{}/src/task6_random_config_generator.exe".format(str_pkg_path)])
 
     rospy.spin()

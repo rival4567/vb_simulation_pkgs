@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import rospy
 import sys
@@ -15,15 +15,20 @@ class Ur5Moveit:
     # Constructor
     def __init__(self, arg_robot_name):
 
-        rospy.init_node('node_eg1_node_print_pose_joint_angles', anonymous=True)
-        
-        self._robot_ns = '/'  + arg_robot_name
+        rospy.init_node(
+            'node_eg1_node_print_pose_joint_angles', anonymous=True)
+
+        self._robot_ns = '/' + arg_robot_name
         self._planning_group = "manipulator"
         self._commander = moveit_commander.roscpp_initialize(sys.argv)
-        self._robot = moveit_commander.RobotCommander(robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._scene = moveit_commander.PlanningSceneInterface(ns=self._robot_ns)
-        self._group = moveit_commander.MoveGroupCommander(self._planning_group, robot_description= self._robot_ns + "/robot_description", ns=self._robot_ns)
-        self._display_trajectory_publisher = rospy.Publisher( self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
+        self._robot = moveit_commander.RobotCommander(
+            robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._scene = moveit_commander.PlanningSceneInterface(
+            ns=self._robot_ns)
+        self._group = moveit_commander.MoveGroupCommander(
+            self._planning_group, robot_description=self._robot_ns + "/robot_description", ns=self._robot_ns)
+        self._display_trajectory_publisher = rospy.Publisher(
+            self._robot_ns + '/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
 
         self._planning_frame = self._group.get_planning_frame()
         self._eef_link = self._group.get_end_effector_link()
@@ -69,7 +74,6 @@ class Ur5Moveit:
                       "q_z: {}\n".format(q_z) +
                       "q_w: {}\n".format(q_w) +
                       '\033[0m')
-
 
     def print_joint_angles(self):
         list_joint_values = self._group.get_current_joint_values()
